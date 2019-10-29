@@ -9,15 +9,14 @@
           <a :underline="false" class="blog-title" :href="info.url">{{info.title}}</a>
           <div class="blog-context">
             <div class="desc-context">
-              摘要:{{info.content}}
+              摘要:{{info.content | ellipsis}}
               <a
                 :href="info.url"
                 class="desc_readmore"
               >阅读全文</a>
             </div>
           </div>
-          <div class="blog-desc">posted @{{info.date}} {{info.author}}</div>
-          <!-- <div class="text item" >二氧化碳浓度:{{statistics['co2']}}</div> -->
+          <div class="blog-desc">posted @{{info.date | formatDate}} {{info.author}}</div>
         </div>
       </div>
     </div>
@@ -56,6 +55,40 @@ export default {
       blogInfos: [],
       navInfos:[],
     };
+  },
+  filters: {//过滤器，主要是为了限制显示字数
+    ellipsis (content) {
+      if (!content) return ''
+      //将Markdown变为纯文本  
+      // 去掉#和`和 *
+      content = content.replace(/#+\s/g,'').replace(/`+/g,'').replace(/\*+/g,'');
+
+      // 去掉标签
+      content = content.replace(/<[^<>]+>/g,'')
+      //去掉图片链接
+      // let content_text2 = content_text1.replaceAll('!\[\]\((.*?)\)','');
+      //去掉markdown标签
+      // let content_text3 = content_text2.replaceAll('[\\\`\*\_\[\]\#\+\-\!\>]','');
+      if (content.length > 250) {
+        return content.slice(0,250)+ '...'
+      }
+      return content
+    },
+    formatDate (value) {  
+      let date = new Date(value);
+      let y = date.getFullYear();
+      let MM = date.getMonth() + 1;
+      MM = MM < 10 ? ('0' + MM) : MM;
+      let d = date.getDate();
+      d = d < 10 ? ('0' + d) : d;
+      let h = date.getHours();
+      h = h < 10 ? ('0' + h) : h;
+      let m = date.getMinutes();
+      m = m < 10 ? ('0' + m) : m;
+      let s = date.getSeconds();
+      s = s < 10 ? ('0' + s) : s;
+      return y + '年' + MM + '月' + d +'日  '+h+':'+m+':'+s;
+      },
   },
   mounted(){
     this.getCates()

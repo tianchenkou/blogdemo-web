@@ -14,6 +14,11 @@ import './plugins/element.js'
 Vue.prototype.$qs=qs;
 // axios.defaults.baseURL = 'http://localhost:8081/TestForWoss';
 
+//使用Mavon-editor
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+Vue.use(mavonEditor)
+
 //简单token实现，利用本地数据库
 // router.beforeEach((to, from, next) => { // 路由跳转前监控(保证登录状态)
 //   // 重登陆删除本地数据

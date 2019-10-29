@@ -16,9 +16,8 @@
 </template>
 
 <script>
-// import marked from "marked";
 export default {
-  data() {
+ data() {
     return {
       articleDetail: {"context":"## Java中常见的运行时异常\r\n* 空指针异常 NullPointerException\r\n操作空对象\r\n* 数组下标越界异常 IndexOutOfBoundsException\r\n操作数组的时候\r\n* 类型转换异常 ClassCastException\r\nTreeSet或者TreeMap等需要排序的几个方法"}
     };
@@ -35,8 +34,9 @@ export default {
       return data;
     }
   }
-};
+}
 </script>
+
 <style lang="scss" scoped>
 .main-blogContext{
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
