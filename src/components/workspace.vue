@@ -6,12 +6,12 @@
         <!-- flow布局显示数据 -->
         <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
         <div class="blog-show" v-for="info in blogInfos" :key="info.id">
-          <a :underline="false" class="blog-title" :href="info.url">{{info.title}}</a>
+          <a :underline="false" class="blog-title" v-on:click='goBlogView(info.id)'>{{info.title}}</a>
           <div class="blog-context">
             <div class="desc-context">
               摘要:{{info.content | ellipsis}}
               <a
-                :href="info.url"
+                v-on:click='goBlogView(info.id)'
                 class="desc_readmore"
               >阅读全文</a>
             </div>
@@ -54,6 +54,7 @@ export default {
       imgUrl:"https://avatars1.githubusercontent.com/u/31175877?s=460&v=4",
       blogInfos: [],
       navInfos:[],
+      defaultCateId:5
     };
   },
   filters: {//过滤器，主要是为了限制显示字数
@@ -92,6 +93,7 @@ export default {
   },
   mounted(){
     this.getCates()
+    this.getBlogs(this.defaultCateId)
   },
   methods: {
     hello(){
@@ -119,7 +121,6 @@ export default {
         }
       })
     },
-    
     //获取博客，参数是二级目录的id
     getBlogs(id){
       var _this = this;
@@ -136,12 +137,15 @@ export default {
             //查询成功,绑定数据
             _this.blogInfos = info
           }
-         
         } else {
           //后台发生异常
           this.$router.push({ path: "/404" });
         }
       })
+    },
+    goBlogView(id){//去博客的详情页，参数是blog的id
+      // this.$store.commit('updateBlogId',id)
+      this.$router.push({name:'blogview',params:{'id':id}}); 
     }
   }
 };

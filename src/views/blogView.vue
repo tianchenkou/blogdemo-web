@@ -4,7 +4,7 @@
    <div class="main-blogContext">
      <mavon-editor
       class="md"
-     :value="articleDetail.context"
+     :value="blogInfo.content"
      :subfield = "prop.subfield"
      :defaultOpen = "prop.defaultOpen"
      :toolbarsFlag = "prop.toolbarsFlag"
@@ -16,10 +16,11 @@
 </template>
 
 <script>
+import {requestBlog} from '../api/api';
 export default {
  data() {
     return {
-      articleDetail: {"context":"## Java中常见的运行时异常\r\n* 空指针异常 NullPointerException\r\n操作空对象\r\n* 数组下标越界异常 IndexOutOfBoundsException\r\n操作数组的时候\r\n* 类型转换异常 ClassCastException\r\nTreeSet或者TreeMap等需要排序的几个方法"}
+      blogInfo: {},
     };
   },
   computed: {
@@ -32,7 +33,39 @@ export default {
         scrollStyle: true
       };
       return data;
+    },
+    bid () {
+      return this.$route.params.id
     }
+  },
+  mounted(){
+      this.getBlogs()
+  },
+  methods:{
+      getBlogs(){
+        var _this = this;
+        
+        requestBlog(this.bid).then(data => {
+            let{code,info,msg} = data
+            if (code == 200) {
+            if (info.length == 0) {
+                //info为空
+                this.$message({
+                message: msg,
+                type: "error"
+                });
+            } else {
+                //查询成功,绑定数据
+                _this.blogInfo = info;
+                console.log(info);
+                
+            }
+            } else {
+            //后台发生异常
+            this.$router.push({ path: "/404" });
+            }
+        })
+    },
   }
 }
 </script>

@@ -41,19 +41,16 @@ export default new Router({
           name: 'workspace',
           component: () => import('./components/workspace.vue')
         },
-        {
-          path: '/about',
-          name: 'about',
-          // route level code-splitting
-          // this generates a separate chunk (about.[hash].js) for this route
-          // which is lazy-loaded when the route is visited.
-
-        },
         // {
         //   path:'',
         //   component:() => import('./components/home.vue')
         // },
       ]
+    },
+    {
+      path: '/blog',
+      name: 'blogview',
+      component: () => import('./views/blogView.vue')
     },
     {
       path: '/login',
@@ -73,7 +70,7 @@ export default new Router({
       name: '',
       hidden: true
     },
-    //通配符，范文任何路由时，都会跳转到404 页面，但是要放在最后
+    //通配符，访问任何路由时，都会跳转到404 页面，但是要放在最后
     {
       path: '*',
       hidden: true,

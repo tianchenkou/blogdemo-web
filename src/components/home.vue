@@ -20,7 +20,7 @@
 export default {
   data() {
     return {
-      articleDetail: {"context":"## Java中常见的运行时异常\r\n* 空指针异常 NullPointerException\r\n操作空对象\r\n* 数组下标越界异常 IndexOutOfBoundsException\r\n操作数组的时候\r\n* 类型转换异常 ClassCastException\r\nTreeSet或者TreeMap等需要排序的几个方法"}
+      articleDetail: {"context":"## 你好!欢迎浏览扣天辰的博客，本博客现在有以下功能\r\n* 编辑和上传博客 \r\n点击'<b>编辑博客</b>'\r\n* 博客分类\r\n点击'<b>我的博客</b>'\r\n"}
     };
   },
   computed: {
