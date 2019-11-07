@@ -1,8 +1,8 @@
 <template>
   <el-form
-        :model="ruleForm2"
+        :model="loginForm"
         :rules="rules2"
-        ref="ruleForm2"
+        ref="loginForm"
         label-position="left"
         label-width="0px"
         class="demo-ruleForm login-container"
@@ -15,7 +15,7 @@
               <!--autocomplete属性：系统账户需要保密为off，否则数据会被自动记录-->
               <el-input
                 type="text"
-                v-model="ruleForm2.account"
+                v-model="loginForm.account"
                 auto-complete="off"
                 placeholder="账号"
                 prefix-icon="el-icon-user"
@@ -25,27 +25,37 @@
             <el-form-item prop="checkPass">
               <el-input
                 type="password"
-                v-model="ruleForm2.checkPass"
+                v-model="loginForm.checkPass"
                 auto-complete="off"
                 placeholder="密码"
                 show-password
                 prefix-icon="el-icon-lock"
+                @keyup.enter.native="handleLogin"
               ></el-input>
+            </el-form-item>
+            <el-form-item prop="code">
+              <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%" 
+                @keyup.enter.native="handleLogin"
+              >
+                <!-- <el-icon-s-check slot="prefix" icon-class="validCode" class="el-input__icon input-icon"/> -->
+              </el-input>
+              <div class="login-code">
+              <img :src="codeUrl" @click="getCode">
+            </div>
             </el-form-item>
             <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
             <!-- 跳转到忘记密码界面 -->
             <el-link @click.native.prevent target="_blank" class="forget" :underline="false">忘记密码</el-link>
-
             <el-form-item style="width:100%;">
               <!--提交按钮 @click.native.prevent：用来阻止默认行为 :loading:？？？-->
               <el-button
                 type="primary"
                 style="width:100%;"
-                @click.native.prevent="handleSubmit2"
+                @click.native.prevent="handleLogin"
                 :loading="logining"
               >登录</el-button>
 
-              <!-- <el-button type="primary"  style="width:30%;" @click.native.prevent="handleSubmit2" :loading="logining">登录</el-button> -->
+              <!-- <el-button type="primary"  style="width:30%;" @click.native.prevent="handleLogin" :loading="logining">登录</el-button> -->
               <!-- <el-button type="primary"  style="float:right;width:30%;" @click.native.prevent="handleReset2">重置</el-button> -->
             </el-form-item>
           </el-tab-pane>
@@ -54,7 +64,7 @@
               <el-form-item prop="phone">
                 <el-input v-model="Register.phone" placeholder="请输入手机号"></el-input>
               </el-form-item>
-              <el-form-item prop="验证码" class="code">
+              <el-form-item prop="验证码" class="phone-code">
                 <el-input v-model="Register.sendcode" placeholder="请输入验证码" class="sendcode"></el-input>
                 <el-button
                   type="button"
@@ -72,7 +82,7 @@
               </el-form-item>
 
               <el-form-item>
-                <el-button type="primary" @click="submitForm" style="width:100%">提交</el-button>
+                <el-button type="primary" style="width:100%">提交</el-button>
               </el-form-item>
             </el-form>
           </el-tab-pane>
@@ -81,16 +91,20 @@
 </template>
 
 <script>
-import { requestLogin } from "../../api/api.js";
+import { requestLogin,requestVImg } from "../../api/api.js";
 // import NProgress from 'nprogress'
 export default {
   data() {
     return {
       logining: false /* 初始状态为不在登录进行时 */,
-      ruleForm2: {
+      codeUrl: '',
+      loginForm: {
         /* 存放当前输入的用户名和密码 */
-        account: "admin",
-        checkPass: "123456"
+        account: "koutianchen",
+        checkPass: "123456",
+        code: '',
+        uuid: '',
+        // token:''
       },
       rules2: {
         /* 校验规则 对象 */
@@ -103,10 +117,11 @@ export default {
         checkPass: [
           { required: true, message: "请输入密码", trigger: "blur" }
           // { validator: validaePass2 }
-        ]
+        ],
+        code: [{ required: true, trigger: 'change', message: '验证码不能为空' }]
       },
       checked: true,
-      activeName: "second",
+      activeName: "first",
 
       //免密登录模块
       Register: {
@@ -118,35 +133,49 @@ export default {
       btntxt: "重新发送"
     };
   },
+  created(){
+    this.getCode();
+  },
   methods: {
     handleReset2() {
-      this.$refs.ruleForm2.resetFields();
+      this.$refs.loginForm.resetFields();
     },
-    handleSubmit2(ev) {
+    handleLogin(ev) {
       var _this = this;
       /* 调用element-ui的表单方法validate校验。 */
-      this.$refs.ruleForm2.validate(valid => {
+      this.$refs.loginForm.validate(valid => {
         /* 回调函数（箭头函数），第一个参数为是否通过检验 */
         if (valid) {
           /* 校验成功的逻辑处理 */
           this.logining = true; /* 登录中，这个变量绑定了登录按钮的loading动画 */
           var loginParams = _this.$qs.stringify({
-            username: this.ruleForm2.account,
-            password: this.ruleForm2.checkPass
+            username: this.loginForm.account,
+            password: this.loginForm.checkPass,
+            code: this.loginForm.code,
+            uuid: this.loginForm.uuid
           });
-          requestLogin(loginParams).then(data => {
+          requestLogin(loginParams).then(res => {
             /* 发送登录请求，传入登录的用户对象。并根据响应回调，data为响应数据 */
             this.logining = false; /* 登录结束（状态码判断失败或者成功） */
-            let { msg, code, usr } = data;
+            let { msg, code, data } = res;
 
-            if (code !== 200) {
+            let usr = data;
+      
+            console.log(usr);
+            
+            if (code != 200) {
               this.$message({
                 message: msg,
                 type: "error"
               });
             } else {
               /* 登陆成功，储存用户字符串对象。跳转到/table */
-              sessionStorage.setItem("user", JSON.stringify(usr));
+              
+              //储存Token数据
+              this.$store.commit('changeLogin',{Authorization: usr.token});
+
+              //存储user对象
+              localStorage.setItem("user", JSON.stringify(usr.user));
               this.$router.push({ path: "/home/test" });
             }
           });
@@ -155,6 +184,14 @@ export default {
           return false;
         }
       });
+    },
+    //验证码模块
+    getCode() {
+      requestVImg().then(res => {
+        this.codeUrl = res.data.image
+        
+        this.loginForm.uuid = res.data.key
+      })
     },
     //免密登录模块
     sendcode() {
@@ -196,12 +233,11 @@ export default {
         this.disabled = false;
       }
     },
-    submitForm() {}
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 .login-container {
   -webkit-border-radius: 5px;
@@ -241,5 +277,8 @@ export default {
 .el-button--primary {
   width: 100%;
   float: right;
+}
+.el-form-item__content{
+  display: flex;
 }
 </style>

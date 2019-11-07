@@ -50,7 +50,7 @@
 </template>
  
 <script>
-import { getMarkdownArticle, saveMarkdownArticle } from "../api/api.js";
+import { saveMarkdownArticle } from "../api/api.js";
 import { uploadImg } from "../api/api.js";
 import upload from "./subcomponents/mainupload";
 
@@ -118,6 +118,7 @@ export default {
     };
   },
   created() {
+    console.log(process.env.VUE_APP_BASE);
     this.getArticle();
   },
   mounted() {
@@ -187,13 +188,14 @@ export default {
     imgAdd(pos, file) {
       //添加图片，pos为位置
       let markdownImg = {},
-        $vm = this.$refs.md;
+      $vm = this.$refs.md;
       markdownImg.base64Data = file.miniurl;
       markdownImg.type = file.type;
       uploadImg(markdownImg)
         .then(r => {
           console.log(r);
-          $vm.$img2Url(pos, process.env.VUE_APP_BASE_API + "/img/" + r.data);
+          //将返回的url替换到文本原位置
+          $vm.$img2Url(pos, process.env.VUE_APP_BASE + "/static/img" + r.data);
         })
         .catch(e => {
           console.log(e);

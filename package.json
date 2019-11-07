@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "uat-build": "vue-cli-service build --mode uat"
   },
   "dependencies": {
     "core-js": "^2.6.5",

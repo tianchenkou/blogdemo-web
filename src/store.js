@@ -5,12 +5,21 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    //blogId:0
+    // 存储token
+    Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : ''
   },
   mutations: {
-    // updateBlogId(state,newBlogId){
-    //   state.blogId = newBlogId;
-    // }
+    // 修改token，并将token存入localStorage
+    changeLogin (state, user) {
+      state.Authorization = user.Authorization;
+      localStorage.setItem('Authorization', user.Authorization);
+    },
+    logout(state) {
+      localStorage.removeItem('Authorization');
+      localStorage.removeItem('user');
+
+      state.token = null
+    }
   },
   getters: {
     // getBlogId(state){

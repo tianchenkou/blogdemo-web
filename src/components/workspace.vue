@@ -6,14 +6,14 @@
         <!-- flow布局显示数据 -->
         <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
         <div class="blog-show" v-for="info in blogInfos" :key="info.id">
-          <a :underline="false" class="blog-title" v-on:click='goBlogView(info.id)'>{{info.title}}</a>
+          <a target="_blank" :underline="false" class="blog-title" @click='goBlogView(info.id)' style="cursor: pointer;">{{info.title}}</a>
           <div class="blog-context">
             <div class="desc-context">
               摘要:{{info.content | ellipsis}}
-              <a
-                v-on:click='goBlogView(info.id)'
+              <el-link target="_blank" :underline="false"
+                @click='goBlogView(info.id)'
                 class="desc_readmore"
-              >阅读全文</a>
+              >阅读全文</el-link>
             </div>
           </div>
           <div class="blog-desc">posted @{{info.date | formatDate}} {{info.author}}</div>
@@ -145,7 +145,7 @@ export default {
     },
     goBlogView(id){//去博客的详情页，参数是blog的id
       // this.$store.commit('updateBlogId',id)
-      this.$router.push({name:'blogview',params:{'id':id}}); 
+      this.$router.push({name:'blogview',query:{'id':id}}); 
     }
   }
 };
