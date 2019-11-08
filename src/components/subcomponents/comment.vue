@@ -10,7 +10,7 @@
         type="textarea"
         :rows="3"
         autofocus
-        placeholder="写下你的评论"
+        placeholder="你想对作者说些什么"
       ></el-input>
       <div class="btn-control">
         <el-button class="btn" type="success" round @click="commitComment">发表评论</el-button>

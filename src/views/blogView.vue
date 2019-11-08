@@ -58,7 +58,7 @@ export default {
           if (code == 200) {
           if (info.length == 0) {
               //info为空
-              this.$message({
+              _this.$message({
               message: msg,
               type: "error"
               });
@@ -68,7 +68,7 @@ export default {
           }
           } else {
           //后台发生异常
-          this.$router.push({ path: "/404" });
+          _this.$router.push({ path: "/404" });
           }
       })
     },

@@ -20,8 +20,31 @@
 export default {
   data() {
     return {
-      articleDetail: {"context":"## 你好!欢迎浏览扣天辰的博客，本博客现在有以下功能\r\n* 编辑和上传博客 \r\n点击'<b>编辑博客</b>'\r\n* 博客分类\r\n点击'<b>我的博客</b>'\r\n"}
+      articleDetail: {"context":
+      "## 你好!欢迎浏览扣天辰的博客，本博客现在有以下功能\r\n* 编辑和上传博客 \r\n点击'<b>编辑博客</b>'\r\n* 博客分类\r\n点击'<b>我的博客</b>'\r\n* 博客评论\r\n\r\n## 技术栈\r\n* vue\r\n* element-ui\r\n* SpringBoot\r\n* mybatis\r\n* redis\r\n* jwt\r\n"}
     };
+  },
+  mounted(){
+    // let _this = this;
+    // requestBlog(0).then(data => {
+    //   let{code,info,msg} = data
+    //   if (code == 200) {
+    //     if (info.length == 0) {
+    //         //info为空
+    //         _this.$message({
+    //         message: msg,
+    //         type: "error"
+    //         });
+    //     } else {
+    //         //查询成功,绑定数据
+    //         _this.articleDetail = info;
+    //     }
+    //   } else {
+    //   //后台发生异常
+    //   this.$router.push({ path: "/404" });
+    //   }
+    // });
+    
   },
   computed: {
     prop() {

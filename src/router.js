@@ -27,9 +27,9 @@ export default new Router({
           component:() => import('./components/home.vue')
         },
         {
-          path: '/home/test',
-          name: 'test',
-          component: () => import('./components/test.vue')
+          path: '/home/editblog',
+          name: 'editblog',
+          component: () => import('./components/editblog.vue')
         },
         {
           path: '/home/manage',
@@ -37,9 +37,9 @@ export default new Router({
           component: () => import('./components/manage.vue')
         },
         {
-          path: '/home/workspace',
-          name: 'workspace',
-          component: () => import('./components/workspace.vue')
+          path: '/home/myblog',
+          name: 'myblog',
+          component: () => import('./components/myblog.vue')
         },
         // {
         //   path:'',

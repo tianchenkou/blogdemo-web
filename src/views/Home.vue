@@ -15,10 +15,10 @@
           <el-menu-item index="/home/main">
             <i class="el-icon-house"></i>
           </el-menu-item>
-          <el-menu-item index="/home/test">编辑博客</el-menu-item>
-          <el-menu-item index="/home/workspace">我的博客</el-menu-item>
+          <el-menu-item index="/home/editblog">编辑博客</el-menu-item>
+          <el-menu-item index="/home/myblog">我的博客</el-menu-item>
 
-          <el-menu-item index="/home/manage">管理</el-menu-item>
+          <el-menu-item index="/home/manage" disabled>管理</el-menu-item>
           <!-- <el-menu-item index="4">
             <a href="https://www.ele.me" target="_blank">数据管理</a>
           </el-menu-item> -->

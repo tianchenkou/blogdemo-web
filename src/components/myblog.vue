@@ -24,7 +24,14 @@
     <!-- blog的导航 -->
     <div class="slideBar" style="display:block">
       <div class="slideBarMain">
-        <div class="img-tou"><el-avatar :size="150" :src="imgUrl"></el-avatar></div>
+        <div class="img-tou">
+          <div v-if="user.avatar">
+            <el-avatar :size="150" :src="user.avatar"></el-avatar>
+          </div>
+          <div v-else>
+            <el-avatar :size="150" src="../assets/tou.jpg"></el-avatar>
+          </div>
+        </div>
         <div class="nav-item">
           <!-- 一级目录分类 -->
           <div class="nav-group" v-for="navInfo in navInfos" :key="navInfo.id">
@@ -51,7 +58,7 @@ import { requestBlogs } from "../api/api.js";
 export default {
   data() {
     return {
-      imgUrl:"https://avatars1.githubusercontent.com/u/31175877?s=460&v=4",
+      user:'',
       blogInfos: [],
       navInfos:[],
       defaultCateId:5
@@ -94,6 +101,7 @@ export default {
   mounted(){
     this.getCates()
     this.getBlogs(this.defaultCateId)
+    this.user = JSON.parse(localStorage.getItem('user'));
   },
   methods: {
     hello(){

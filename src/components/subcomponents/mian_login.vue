@@ -100,8 +100,8 @@ export default {
       codeUrl: '',
       loginForm: {
         /* 存放当前输入的用户名和密码 */
-        account: "koutianchen",
-        checkPass: "123456",
+        account: "admin",
+        checkPass: "admin",
         code: '',
         uuid: '',
         // token:''
@@ -176,7 +176,7 @@ export default {
 
               //存储user对象
               localStorage.setItem("user", JSON.stringify(usr.user));
-              this.$router.push({ path: "/home/test" });
+              this.$router.push({ path: "/home/myblog" });
             }
           });
         } else {
