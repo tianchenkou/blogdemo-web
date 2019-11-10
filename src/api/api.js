@@ -27,7 +27,6 @@ axios.interceptors.response.use(
           //TODO 这里将message该为code 后端
           // switch (error.response.data.message) {
               // case '401':
-                  console.log(this);
                   // 返回 401 清除token信息并跳转到登录页面
                   Vue.$store.commit("logout");
                   // Vue.$router.push({ path: "/login" });
@@ -63,6 +62,7 @@ export const getAllCommentData = param => { return axios.get(`/getAllCmt/${param
 export const setComment = params => { return axios.post(`/setCmt`,params).then(res => res.data) }
 //插入一条评论
 export const setReply = params => { return axios.post(`/setRpy`,params).then(res => res.data) }
-
+//更改用户头像接口
+export const setAvatar = params => { return axios.post(`/user/upadateAvatar`,params).then(res => res.data) }
 
 

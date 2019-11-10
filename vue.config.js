@@ -48,11 +48,12 @@ module.exports = {
           '^/TestForWoss': '' //规定请求地址以什么作为开头
           }
       },
-      '/api': {
-        target: 'http://localhost:8081/TestForWoss',
+      //将来打包需要在Nginx上配置
+      '/uploadImg': {
+        target: 'https://sm.ms/api/v2/upload',
         changeOrigin: true, //是否跨域
         pathRewrite: {
-        '^/api': '' //规定请求地址以什么作为开头
+        '^/uploadImg': '' //规定请求地址以什么作为开头
         }
       },
     }

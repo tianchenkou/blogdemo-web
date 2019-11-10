@@ -172,8 +172,8 @@ export default {
               /* 登陆成功，储存用户字符串对象。跳转到/table */
               
               //储存Token数据
-              this.$store.commit('changeLogin',{Authorization: usr.token});
-
+              this.$store.commit('changeLogin',{user: usr.user,token :usr.token});
+              
               //存储user对象
               localStorage.setItem("user", JSON.stringify(usr.user));
               this.$router.push({ path: "/home/myblog" });

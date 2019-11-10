@@ -25,12 +25,9 @@
     <div class="slideBar" style="display:block">
       <div class="slideBarMain">
         <div class="img-tou">
-          <div v-if="user.avatar">
-            <el-avatar :size="150" :src="user.avatar"></el-avatar>
-          </div>
-          <div v-else>
-            <el-avatar :size="150" src="../assets/tou.jpg"></el-avatar>
-          </div>
+          <el-avatar :size="150" :src="user.avatar" @error="errorHandler">
+              <img src="../assets/tou.jpg">
+          </el-avatar>
         </div>
         <div class="nav-item">
           <!-- 一级目录分类 -->
@@ -104,8 +101,10 @@ export default {
     this.user = JSON.parse(localStorage.getItem('user'));
   },
   methods: {
-    hello(){
-      console.log(1);
+    errorHandler(){
+      if (!this.user) {
+        return true
+      }
     },
     getCates(){
       var _this = this;

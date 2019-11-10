@@ -18,10 +18,23 @@
           <el-menu-item index="/home/editblog">编辑博客</el-menu-item>
           <el-menu-item index="/home/myblog">我的博客</el-menu-item>
 
-          <el-menu-item index="/home/manage" disabled>管理</el-menu-item>
+          <el-menu-item index="/home/manage">管理</el-menu-item>
+          <el-menu-item index="/home/test" disabled>测试</el-menu-item>
           <!-- <el-menu-item index="4">
             <a href="https://www.ele.me" target="_blank">数据管理</a>
-          </el-menu-item> -->
+          </el-menu-item>-->
+          <el-submenu index="/login" style="float: right;">
+            <template slot="title">
+              <!-- 一种错误图片的处理方法 -->
+              <el-avatar :size="40" :src="user.avatar" @error="errorHandler">
+                <img src="../assets/tou.jpg" />
+              </el-avatar>
+            </template>
+              <el-menu-item-group>
+                <el-menu-item index="/home/manage">个人中心</el-menu-item>
+                <el-menu-item index="/login" disabled>登出</el-menu-item>
+              </el-menu-item-group>
+          </el-submenu>
         </el-menu>
       </el-header>
       <el-main>
@@ -29,14 +42,14 @@
           <el-backtop target=".el-scrollbar__wrap" :bottom="100">
             <div
               style="{
-        height: 100%;
-        width: 100%;
-        background-color: #f2f5f6;
-        box-shadow: 0 0 6px rgba(0,0,0, .12);
-        text-align: center;
-        line-height: 40px;
-        color: #1989fa;
-      }"
+                height: 100%;
+                width: 100%;
+                background-color: #f2f5f6;
+                box-shadow: 0 0 6px rgba(0,0,0, .12);
+                text-align: center;
+                line-height: 40px;
+                color: #1989fa;
+              }"
             >UP</div>
           </el-backtop>
           <!-- 中间的区域 -->
@@ -67,14 +80,13 @@
   // line-height: 160px;
   padding: 0px;
 }
-
-
 </style>
 
 <script>
 export default {
   data() {
     return {
+      user: "",
       activeIndex: "1",
       activeIndex2: "1",
       drawer: false,
@@ -83,6 +95,11 @@ export default {
     };
   },
   methods: {
+    errorHandler(){
+      if (!this.user) {
+        return true
+      }
+    },
     handleSelect(key, keyPath) {
       // console.log(key, keyPath);
     },
@@ -108,6 +125,7 @@ export default {
     window.onresize = function temp() {
       this.clientHeight = `${document.documentElement.clientHeight}`;
     };
+    this.user = JSON.parse(localStorage.getItem("user"));
   },
   watch: {
     // 如果 `clientHeight` 发生改变，这个函数就会运行
