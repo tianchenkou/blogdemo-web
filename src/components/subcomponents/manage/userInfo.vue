@@ -68,7 +68,7 @@ export default {
         'Authorization': "RTMq3jUjVPKOVVmsNnHy7GXZJOEXT8wB"
       },
       ico: 'el-icon-refresh',
-      updateAvatarApi : '/api',
+      updateAvatarApi : '/uploadImg',
       user:{}
     }
   },
@@ -186,11 +186,6 @@ export default {
       border-top: 1px solid #F0F3F4;
       padding: 11px 0px;
       font-size: 13px;
-    }
-    .user-right {
-    //   float: right;
-
-  
     }
   }
 </style>
