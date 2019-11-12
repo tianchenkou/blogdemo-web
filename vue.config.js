@@ -49,11 +49,11 @@ module.exports = {
           }
       },
       //将来打包需要在Nginx上配置
-      '/uploadImg': {
-        target: 'https://sm.ms/api/v2/upload',
+      '/api': {
+        target: 'http://127.0.0.1:8181/api',
         changeOrigin: true, //是否跨域
         pathRewrite: {
-        '^/uploadImg': '' //规定请求地址以什么作为开头
+        '^/api': '' //规定请求地址以什么作为开头
         }
       },
     }

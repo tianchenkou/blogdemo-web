@@ -65,10 +65,10 @@ export default {
     return {
       Avatar: Avatar,
       headers: {
-        'Authorization': "RTMq3jUjVPKOVVmsNnHy7GXZJOEXT8wB"
+        'Authorization': localStorage.getItem('Authorization')
       },
       ico: 'el-icon-refresh',
-      updateAvatarApi : '/uploadImg',
+      updateAvatarApi : '/api/fileUpload',
       user:{}
     }
   },
@@ -114,10 +114,10 @@ export default {
     },
     handleSuccess(response) {
       var _this = this;      
-      if (response.success) {
+      if (response.code==200) {
         //封装用户id和头像
         let data = {
-          "avatar":response.data.url,
+          "avatar":response.data,
           "uid":this.user.uid
         };
         //回传信息到数据库
@@ -130,7 +130,7 @@ export default {
               duration: 2500
             })
             //改变user的值
-            this.user.avatar = response.data.url;
+            this.user.avatar = response.data;
             localStorage.setItem("user", JSON.stringify(this.user));
             _this.reload();
           } else {
